@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Sprite Animation Tutorial</title>
+	<link rel="stylesheet" type="text/css" href="css/style-mario.css">
+</head>
+<body>
+	<canvas id='canvas'></canvas><br />
+	<script>
+	var canvasWidth = 1350; 
+	var canvasHeight = 150;
+
+	var spriteWidth = 651; 
+	var spriteHeight = 66; 
+
+	var rows = 1; 
+	var cols = 10; 
+
+	var trackRight = 0; 
+	var trackLeft = 1; 
+
+	var width = spriteWidth/cols; 
+	var height = spriteHeight/rows; 
+
+	var curFrame = 0; 
+	var frameCount = 10; 
+
+	var x=0;
+	var y=25; 
+
+	var srcX; 
+	var srcY; 
+
+	var left = false; 
+	var right = true;
+
+	var speed = 10; 
+
+	var canvas = document.getElementById('canvas');
+	canvas.width = canvasWidth;
+	canvas.height = canvasHeight; 
+
+	var ctx = canvas.getContext("2d");
+
+	var character = new Image(); 
+	character.src = "img/mario-sprites.png";
+
+	function updateFrame(){
+		curFrame = ++curFrame % frameCount; 
+		srcX = curFrame * width; 
+		ctx.clearRect(x,y,width,height); 
+
+		if(left && x>0){
+			srcY = trackLeft * height; 
+			x-=speed; 
+		}
+		if(right && x<canvasWidth-width){
+			srcY = trackRight * height; 
+			x+=speed; 
+		}
+	}
+
+	function draw(){
+		updateFrame();
+		ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+	}
+	setInterval(draw,80);
+	</script>
+</body>
+</html>
